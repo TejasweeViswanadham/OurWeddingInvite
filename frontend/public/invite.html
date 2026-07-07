@@ -183,15 +183,15 @@
   .hero-bunting{ display:flex; justify-content:center; gap:22px; margin-bottom:14px; }
   .hero-bunting span{ width:4px; height:18px; background:var(--gold-light); border-radius:3px; }
   .hero-eyebrow{ font-size:14px; letter-spacing:2px; color:var(--gold-light); font-weight:600; }
-  .hero-sub{ font-size:14px; color:#EADFC2; opacity:0.9; margin:14px auto 8px; max-width:340px; }
-  .hero-name{ font-size:34px; font-weight:600; color:var(--gold-light); line-height:1.15; margin:4px 0; background:linear-gradient(120deg,#E3C468 0%,#F5E6A8 45%,#E3C468 55%,#C9A227 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 1px 20px rgba(227,196,104,0.25); letter-spacing:0.5px; }
+  .hero-sub{ font-size:14px; color:#F3E6C8; opacity:1; margin:14px auto 8px; max-width:340px; }
+  .hero-name{ font-size:26px; font-weight:600; color:var(--gold-light); line-height:1.15; margin:4px 0; background:linear-gradient(120deg,#E3C468 0%,#F5E6A8 45%,#E3C468 55%,#C9A227 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 1px 20px rgba(227,196,104,0.25); letter-spacing:0.5px; }
   .hero-weds{ font-size:13px; letter-spacing:2px; font-style:italic; color:#EADFC2; margin:6px 0; }
   .hero-date{ font-size:13px; letter-spacing:2px; color:var(--gold-light); font-weight:600; margin-top:16px; }
   .hero-muhurtham{ font-size:15px; font-style:italic; color:#F3E6C8; margin-top:8px; }
   .hero-lagnam{ font-size:12px; letter-spacing:2px; color:var(--gold-light); font-weight:600; margin-top:4px; }
-  .hero-eye-divider{ display:flex; align-items:center; gap:10px; margin:18px auto; max-width:220px; color:var(--gold); }
-  .hero-eye-divider::before,.hero-eye-divider::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
-  .hero-place{ font-size:13px; color:#EADFC2; opacity:0.9; }
+  .hero-eye-divider{ display:flex; align-items:center; gap:10px; margin:18px auto; max-width:220px; color:var(--gold-light); }
+  .hero-eye-divider::before,.hero-eye-divider::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold-light),transparent); }
+  .hero-place{ font-size:13px; color:#F3E6C8; opacity:1; }
   .hero-bunting.bottom{ margin-top:18px; margin-bottom:0; }
 
   .section{ padding:44px 24px 8px; text-align:center; }
@@ -777,6 +777,16 @@
     }
   }
   pillBtn.addEventListener('click', togglePlayback);
+
+  // Stop the music once the user leaves the page (switches tab/app, navigates away, closes it)
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) {
+      try { weddingAudio.pause(); } catch(e) {}
+    }
+  });
+  window.addEventListener('pagehide', function(){
+    try { weddingAudio.pause(); } catch(e) {}
+  });
 
   // ---------- Envelope / seal ----------
   var toran = document.getElementById('toran');
