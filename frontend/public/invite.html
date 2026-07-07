@@ -622,18 +622,29 @@
     return '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><g transform="translate(20 20)">'+outer+inner+'<circle cx="0" cy="0" r="2.4" fill="#8B1E28"/></g></svg>';
   }
 
-  for (var i=0;i<18;i++){
+  function spawnPetal(i, burst){
     var p = document.createElement('span');
     var variant = flowerVariants[i % flowerVariants.length];
     var size = 16 + (i % 4) * 4;
     p.className = 'petal ' + (i % 2 === 0 ? 'petal-sway-a' : 'petal-sway-b');
     p.style.left = ((i * 5.3 + 3) % 100) + '%';
-    p.style.animationDelay = ((i * 1.9) % 22).toFixed(2) + 's';
+    p.style.animationDelay = (burst ? ((i % 7) * 0.18) : ((i * 1.9) % 22)).toFixed(2) + 's';
     p.style.animationDuration = (13 + (i % 5) * 2.6).toFixed(2) + 's';
     p.style.width = size + 'px';
     p.style.height = size + 'px';
     p.innerHTML = variant.type === 'jasmine' ? jasmineSVG(variant.petal, variant.center) : marigoldSVG();
     field.appendChild(p);
+    return p;
+  }
+
+  for (var i=0;i<18;i++){ spawnPetal(i, false); }
+
+  function spawnPetalBurst(count){
+    for (var b=0;b<count;b++){
+      var p = spawnPetal(18 + b, true);
+      var lifetime = (parseFloat(p.style.animationDuration) + parseFloat(p.style.animationDelay) + 0.5) * 1000;
+      setTimeout((function(el){ return function(){ if (el.parentNode) el.parentNode.removeChild(el); }; })(p), lifetime);
+    }
   }
 
   // ---------- Reveal cards ----------
@@ -719,6 +730,7 @@
     // Open the envelope FIRST (never let audio issues block the reveal)
     try {
       toran.classList.add('opened');
+      spawnPetalBurst(16);
     } catch(e) {}
 
     setTimeout(function(){
