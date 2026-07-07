@@ -37,10 +37,49 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+
+class RsvpCreate(BaseModel):
+    name: str
+    guests: int = 1
+    attending: str  # "yes" | "no" | "maybe"
+    phone: str = ""
+    message: str = ""
+
+
+class Rsvp(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    guests: int
+    attending: str
+    phone: str = ""
+    message: str = ""
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
     return {"message": "Hello World"}
+
+
+@api_router.post("/rsvp", response_model=Rsvp)
+async def create_rsvp(payload: RsvpCreate):
+    rsvp = Rsvp(**payload.model_dump())
+    doc = rsvp.model_dump()
+    doc['timestamp'] = doc['timestamp'].isoformat()
+    await db.rsvps.insert_one(doc)
+    return rsvp
+
+
+@api_router.get("/rsvp", response_model=List[Rsvp])
+async def list_rsvps():
+    items = await db.rsvps.find({}, {"_id": 0}).to_list(1000)
+    for it in items:
+        if isinstance(it.get('timestamp'), str):
+            it['timestamp'] = datetime.fromisoformat(it['timestamp'])
+    return items
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
