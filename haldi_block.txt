@@ -1,0 +1,21 @@
+data-testid="event-haldi" tabindex="0">
+          <div class="event-back">
+            <div class="event-photo ph-haldi" style="background:#EDE2C9;"><img class="event-real-photo" src="data:image/jpeg;base64,...TRUNCATED..." alt="Haldi ceremony" style="object-position:center center"><div class="photo-gradient"></div><span class="badge">✦ HALDI &amp; PELLI KUTURU</span></div>
+            <div class="event-body">
+              <h3>Haldi &amp; Pelli Kuturu</h3>
+              <p class="event-date">FRIDAY · 28TH AUGUST 2026</p>
+              <p class="event-time">8:30 AM onwards</p>
+              <p class="event-desc">Turmeric blessings and the sacred pelli Kuturu ritual.</p>
+            </div>
+          </div>
+          <div class="event-front">
+            <span class="reveal-chip">✦ Reveal</span>
+            <p class="rf-label">REVEAL · HALDI &amp; PELLI KUTURU</p>
+            <p class="rf-hint">✦ tap to reveal ✦</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-row">
+        <span class="t-dot"></span>
+        <div class="event-flip" 
